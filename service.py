@@ -6,7 +6,11 @@ lcm_lora_id = "latent-consistency/lcm-lora-sdxl"
 
 sample_prompt = "close-up photography of old man standing in the rain at night, in a street lit by lamps, leica 35mm summilux"
 
-@bentoml.service(traffic={"timeout": 30})
+@bentoml.service(
+    traffic={"timeout": 300},
+    workers=1,
+    resources={"gpu": 1, "memory": "16Gi"},
+)
 class LatentConsistency:
     def __init__(self) -> None:
         from diffusers import DiffusionPipeline, LCMScheduler
