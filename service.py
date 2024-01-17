@@ -27,10 +27,15 @@ class LatentConsistency:
         self.lcm_txt2img.to(device="cuda", dtype=torch.float16)
 
     @bentoml.api
-    def txt2img(self, prompt: str = sample_prompt) -> Image:
+    def txt2img(
+            self,
+            prompt: str = sample_prompt,
+            num_inference_steps: int = 4,
+            guidance_scale: float = 1.0,
+    ) -> Image:
         image = self.lcm_txt2img(
             prompt=prompt,
-            num_inference_steps=4,
-            guidance_scale=1,
+            num_inference_steps=num_inference_steps,
+            guidance_scale=guidance_scale,
         ).images[0]
         return image
