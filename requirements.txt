@@ -1,0 +1,4 @@
+PIL
+diffusers
+torch
+bentoml>=1.2.0a0
