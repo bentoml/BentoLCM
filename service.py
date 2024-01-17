@@ -1,4 +1,5 @@
 import bentoml
+import torch
 from PIL.Image import Image
 
 model_id = "stabilityai/stable-diffusion-xl-base-1.0"
@@ -16,7 +17,11 @@ class LatentConsistency:
         from diffusers import DiffusionPipeline, LCMScheduler
         import torch
 
-        self.lcm_txt2img = DiffusionPipeline.from_pretrained(model_id, variant="fp16")
+        self.lcm_txt2img = DiffusionPipeline.from_pretrained(
+            model_id,
+            torch_dtype=torch.float16,
+            variant="fp16",
+        )
         self.lcm_txt2img.load_lora_weights(lcm_lora_id)
         self.lcm_txt2img.scheduler = LCMScheduler.from_config(self.lcm_txt2img.scheduler.config)
         self.lcm_txt2img.to(device="cuda", dtype=torch.float16)
