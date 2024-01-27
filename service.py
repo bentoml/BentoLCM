@@ -10,7 +10,12 @@ sample_prompt = "close-up photography of old man standing in the rain at night, 
 @bentoml.service(
     traffic={"timeout": 300},
     workers=1,
-    resources={"gpu": 1, "memory": "16Gi"},
+    resources={
+        "gpu": 1,
+        "gpu_type": "nvidia-l4",
+        # we can also specify GPU memory requirement:
+        # "memory": "16Gi",
+    },
 )
 class LatentConsistency:
     def __init__(self) -> None:
