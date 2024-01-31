@@ -11,6 +11,8 @@ This project demonstrates how to deploy a REST API server for Stable Diffusion w
 ## Install dependencies
 
 ```bash
+git clone https://github.com/bentoml/BentoLCM.git
+cd BentoLCM
 pip install -r requirements.txt
 ```
 
