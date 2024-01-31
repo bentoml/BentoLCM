@@ -1,21 +1,32 @@
 # Latent Consistency LoRAs with BentoML
 
-This repository demonstrates how simple it is to deploy a REST API server for stable diffusion with minimal inference steps. We'll use BentoML to convert [this HuggingFace example](https://huggingface.co/blog/lcm_lora) for Latent Consistency LoRAs!
+This project demonstrates how to deploy a REST API server for Stable Diffusion with minimal inference steps. We'll use BentoML to convert [this HuggingFace example](https://huggingface.co/blog/lcm_lora) for Latent Consistency LoRAs.
 
-# Try it out!
+## Prerequisites
 
-1. Install the required dependencies:
-```
+- You have installed Python 3.8+ and `pip`. See the [Python downloads page](https://www.python.org/downloads/) to learn more.
+- You have a basic understanding of key concepts in BentoML, such as Services. We recommend you read [Quickstart](https://docs.bentoml.com/en/1.2/get-started/quickstart.html) first.
+- (Optional) We recommend you create a virtual environment for dependency isolation for this project. See the [Conda documentation](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) or the [Python documentation](https://docs.python.org/3/library/venv.html) for details.
+
+## Install dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-2. Serve the model as an HTTP server, which will bind port 3000. You can access the service at http://127.0.0.1:3000.
-```
+## Run the BentoML Service
+
+We have defined a BentoML Service in `service.py`. Run `bentoml serve` in your project directory to start the Service.
+
+```bash
 bentoml serve .
 ```
 
-3. Generate an image with text prompt through "Try it Out" at http://127.0.0.1:3000 or using a curl request:
-```
+The server is now active at [http://localhost:3000](http://localhost:3000/). You can interact with it using the Swagger UI or in other different ways.
+
+CURL
+
+```bash
 curl -X 'POST' \
   'http://localhost:3000/txt2img' \
   -H 'accept: image/*' \
@@ -25,4 +36,16 @@ curl -X 'POST' \
 }' -o out.jpg
 ```
 
-And that's it! Next, you can run `bento build` and choose between [deploying your model to BentoCloud](https://docs.bentoml.com/en/latest/bentocloud/getting-started/quickstart.html) or containerizing the service with Docker.
+## Deploy to production
+
+After the Service is ready, you can deploy the application to BentoCloud for better management and scalability. A configuration YAML file (`bentofile.yaml`) is used to define the build options for your application. It is used for packaging your application into a Bento. See [Bento build options](https://docs.bentoml.com/en/latest/concepts/bento.html#bento-build-options) to learn more.
+
+Make sure you have [logged in to BentoCloud](https://docs.bentoml.com/en/1.2/bentocloud/how-tos/manage-access-token.html), then run the following command in your project directory to deploy the application to BentoCloud.
+
+```bash
+bentoml deploy .
+```
+
+Once the application is up and running on BentoCloud, you can access it via the exposed URL.
+
+**Note**: Alternatively, you can use BentoML to generate a [Docker image](https://docs.bentoml.com/en/1.2/guides/containerization.html) for a custom deployment.
