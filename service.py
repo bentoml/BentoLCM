@@ -13,8 +13,6 @@ sample_prompt = "close-up photography of old man standing in the rain at night, 
     resources={
         "gpu": 1,
         "gpu_type": "nvidia-l4",
-        # we can also specify GPU memory requirement:
-        # "memory": "16Gi",
     },
 )
 class LatentConsistency:
