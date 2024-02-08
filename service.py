@@ -1,5 +1,4 @@
 import bentoml
-import torch
 from PIL.Image import Image
 
 model_id = "stabilityai/stable-diffusion-xl-base-1.0"
