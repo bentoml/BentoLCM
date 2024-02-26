@@ -1,15 +1,10 @@
 <div align="center">
-    <h1 align="center">BentoLCM</h1>
-    <br>
-    <strong>Speed up image generation with LCM LoRAs<br></strong>
-    <i>Powered by BentoML 🍱</i>
-    <br>
+    <h1 align="center">Serving SDXL + LCM LoRAs with BentoML</h1>
 </div>
-<br>
 
 [Latent Consistency Models (LCM)](https://huggingface.co/papers/2310.04378) introduce a method to improve how images are created, especially with models like Stable Diffusion (SD) and Stable Diffusion XL (SDXL). By integrating LCM LoRAs for SD-based models, you can significantly reduce computational timeframe within just 2 to 8 steps.
 
-This project demonstrates how to deploy a REST API server for Stable Diffusion with minimal inference steps using LCM LoRAs. We'll use BentoML to convert [this HuggingFace example](https://huggingface.co/blog/lcm_lora) for LMC LoRAs.
+This is a BentoML example project, demonstrating how to build a REST API server for SD XL using [LCM LoRAs](https://huggingface.co/blog/lcm_lora). See [here](https://github.com/bentoml/BentoML?tab=readme-ov-file#%EF%B8%8F-what-you-can-build-with-bentoml) for a full list of BentoML example projects.
 
 ## Prerequisites
 
@@ -63,6 +58,8 @@ with bentoml.SyncHTTPClient("http://localhost:3000") as client:
     destination_path = Path("/path/to/save/image.png")
     result_path.rename(destination_path)
 ```
+
+For detailed explanations of the Service code, see [Stable Diffusion XL with LCM LoRAs](https://docs.bentoml.org/en/latest/use-cases/diffusion-models/sdxl-lcm-lora.html).
 
 ## Deploy to BentoCloud
 
