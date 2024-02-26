@@ -1,6 +1,10 @@
-# Latent Consistency LoRAs with BentoML
+<div align="center">
+    <h1 align="center">Serving SDXL + LCM LoRAs with BentoML</h1>
+</div>
 
-This project demonstrates how to deploy a REST API server for Stable Diffusion with minimal inference steps. We'll use BentoML to convert [this HuggingFace example](https://huggingface.co/blog/lcm_lora) for Latent Consistency LoRAs.
+[Latent Consistency Models (LCM)](https://huggingface.co/papers/2310.04378) introduce a method to improve how images are created, especially with models like Stable Diffusion (SD) and Stable Diffusion XL (SDXL). By integrating LCM LoRAs for SD-based models, you can significantly reduce computational timeframe within just 2 to 8 steps.
+
+This is a BentoML example project, demonstrating how to build a REST API server for SD XL using [LCM LoRAs](https://huggingface.co/blog/lcm_lora). See [here](https://github.com/bentoml/BentoML?tab=readme-ov-file#%EF%B8%8F-what-you-can-build-with-bentoml) for a full list of BentoML example projects.
 
 ## Prerequisites
 
@@ -38,11 +42,30 @@ curl -X 'POST' \
 }' -o out.jpg
 ```
 
-## Deploy to production
+Python client
 
-After the Service is ready, you can deploy the application to BentoCloud for better management and scalability. A configuration YAML file (`bentofile.yaml`) is used to define the build options for your application. It is used for packaging your application into a Bento. See [Bento build options](https://docs.bentoml.com/en/latest/concepts/bento.html#bento-build-options) to learn more.
+```python
+import bentoml
+from pathlib import Path
 
-Make sure you have [logged in to BentoCloud](https://docs.bentoml.com/en/1.2/bentocloud/how-tos/manage-access-token.html), then run the following command in your project directory to deploy the application to BentoCloud.
+with bentoml.SyncHTTPClient("http://localhost:3000") as client:
+    result_path = client.txt2img(
+        guidance_scale=1,
+        num_inference_steps=4,
+        prompt="close-up photography of old man standing in the rain at night, in a street lit by lamps, leica 35mm summilux",
+    )
+
+    destination_path = Path("/path/to/save/image.png")
+    result_path.rename(destination_path)
+```
+
+For detailed explanations of the Service code, see [Stable Diffusion XL with LCM LoRAs](https://docs.bentoml.org/en/latest/use-cases/diffusion-models/sdxl-lcm-lora.html).
+
+## Deploy to BentoCloud
+
+After the Service is ready, you can deploy the application to BentoCloud for better management and scalability. [Sign up](https://www.bentoml.com/) if you haven't got a BentoCloud account.
+
+Make sure you have [logged in to BentoCloud](https://docs.bentoml.com/en/latest/bentocloud/how-tos/manage-access-token.html), then run the following command to deploy it.
 
 ```bash
 bentoml deploy .
@@ -50,4 +73,4 @@ bentoml deploy .
 
 Once the application is up and running on BentoCloud, you can access it via the exposed URL.
 
-**Note**: Alternatively, you can use BentoML to generate a [Docker image](https://docs.bentoml.com/en/1.2/guides/containerization.html) for a custom deployment.
+**Note**: For custom deployment in your own infrastructure, use [BentoML to generate an OCI-compliant image](https://docs.bentoml.com/en/latest/guides/containerization.html).
